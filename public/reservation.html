@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type='text/css' href="./style/style.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+
+<body>
+
+
+
+    <div class="container">
+        <div class="main-content text-center">
+            <h1 class="display-4">Hot Restaurant</h1>
+            <p class="lead">Current Reservation List and Waiting List</p>
+            <p>Welcome! We only have 5 tables! Book your seat before they are all gone!</p>
+
+            <div class="topnav">
+                <a href="/">Home</a>
+                <a href="/reservation">Make Reservation</a>
+                <a href="/table">View Reservation </a>
+            </div>
+
+        </div>
+
+        <div class="main-imagebg">
+
+            <div class="reserve-content">
+                <h1 class='text-center'>Make A Reservation</h1>
+                <form class="form-reservation ">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword4">Phone Number</label>
+                            <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Email Address</label>
+                        <input type="text" class="form-control" id="email" placeholder="Email Address">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress2">ID</label>
+                        <input type="text" class="form-control" id="reservationID" placeholder="ID">
+                    </div>
+                    <button type="submit" class="btn btn-primary submit">Submit</button>
+                </form>
+            </div>
+
+        </div>
+        <footer class="page-footer font-small blue fixed-bottom text-center">
+                <a class="title " href="/api/reserveTable">API Table Link</a> | <a class="title" href="/api/reserveTable">API Waiting List</a>
+            </footer>
+    </div>
+
+    <script>
+        $('.submit').on('click', function (event) {
+            event.preventDefault();
+
+            var newReservation = {
+                name: $('#name').val().trim(),
+                phone: $('#phoneNumber').val().trim(),
+                email: $('#email').val().trim(),
+                id: $('#reservationID').val().trim()
+            }
+
+            $.post('/api/postReservation', newReservation).then(function (data) {
+                console.log('data has been posted!');
+
+                console.log(data);
+
+                if(data){
+                    alert('Reservation has been booked')
+                }else{
+                    alert('opps we are too full, you are on the waiting list!')
+                }
+            })
+
+            $('#name').val('')
+            $('#phoneNumber').val('')
+            $('#email').val('')
+            $('#reservationID').val('')
+
+        })
+    </script>
+
+</body>
+
+</html>
